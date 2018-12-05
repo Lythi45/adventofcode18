@@ -19,7 +19,6 @@ def l_react(poly):
     return len(poly)-1
 
 print(l_react('#'+poly))
-#11476
 
 ppoly=open("day5.txt","r").read().strip()
 pset=set(map(lambda x:x.upper(),ppoly))
