@@ -2,8 +2,6 @@ import time
 st_ti=time.process_time()
 
 poly=open("day5.txt","r").read().strip()
-
-def l_react(str):
 react=True
 while react:
     react=False
