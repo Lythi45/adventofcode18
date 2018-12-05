@@ -23,11 +23,9 @@ print(l_react('#'+poly))
 
 ppoly=open("day5.txt","r").read().strip()
 pset=set(map(lambda x:x.upper(),ppoly))
-print(pset)
 minl=len(ppoly)
 for delc in pset:
     poly=[c for c in ppoly if c.upper()!=delc]
-    print(delc,len(poly)) 
     minl=min(minl,l_react('#'+''.join(poly)))
 print(minl)
-print(time.process_time()-st_ti)
+print("Seconds used: ",time.process_time()-st_ti)
