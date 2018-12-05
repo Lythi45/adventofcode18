@@ -27,8 +27,7 @@ print(pset)
 minl=len(ppoly)
 for delc in pset:
     poly=[c for c in ppoly if c.upper()!=delc]
-    print(delc,len(poly))
-    if l_react('#'+''.join(poly))<minl:
-        minl=len(poly)
+    print(delc,len(poly)) 
+    minl=min(minl,l_react('#'+''.join(poly)))
 print(minl)
 print(time.process_time()-st_ti)
