@@ -47,15 +47,23 @@ print(live)
 #print(max([cp[n] for n in cp if not n in live]))
 from PIL import Image
 import random
-col={}
-for i in range(51):
-    col[i]=(random.randint(0,255),random.randint(0,255),random.randint(0,255))
-col[0]=(255,0,0)
-
+import math
 img = Image.new('RGB', (500, 500), color = (0, 0, 0))
 pix=img.load()
+col={}
+for i in range(51):
+    wi=math.pi*2/50*i
+    #col[i]=(random.randint(100,255),random.randint(100,255),random.randint(100,255))
+    col[i]=(int((math.sin(wi)+1)*127),
+            int((math.sin(wi+2*math.pi/3)+1)*127),
+            int((math.sin(wi+4*math.pi/3)+1)*127))
+    col[-i]=(col[i][0]//2,col[i][1]//2,col[i][2]//2)
+    pix[i,0]=col[i]
+    pix[i,1]=col[-i]
+col[0]=(255,0,0)
+
 for x in range(0,500):
     for y in range(0,500):
         if (x,y) in pd:
-            pix[x,y]=col[abs(pd[(x,y)][0])]
+            pix[x,y]=col[pd[(x,y)][0]]
 img.save('pil_color.png')
