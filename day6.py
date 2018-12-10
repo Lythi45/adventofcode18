@@ -1,54 +1,61 @@
 li= open("day6.txt","r").readlines()
-ri=[(0,1),(1,1),(1,0),(1,-1),(0,-1),(-1,-1),(-1,0),(-1,1)]
+ri=[(0,1),(1,0),(0,-1),(-1,0)]
 n=1
 pd={}
+pp={}
 for p in li:
     pe=p.split(',')
-    pd[(int(pe[0]),int(pe[1]))]=(n,(0,0))
+    x=int(pe[0])
+    y=int(pe[1])
+    pd[(x,y)]=n
+    pp[n]=(x,y)
     n+=1
 print(pd)
 z=0
+
+def md(p1,p2):
+    return abs(p1[0]-p2[0])+abs(p1[1]-p2[1])
+
 while True:
     print(z)
     for p in list(pd.keys()):
         #print("P",p)
-        n=pd[p][0]
-        di=pd[p][1]
+        n=pd[p]
         #print("Di",di)
         if n>0:
-            pd[p]=(-n,di)
+            pd[p]=-n
             for r in ri:
                 np=(p[0]+r[0],p[1]+r[1])
                 if np in pd:
                     nn=pd[np]
-                    ndi=pd[np][1]
-                    if n!=nn:
-                        sdd=abs(di[0])+abs(di[1])-abs(ndi[0])-abs(ndi[1])
+                    if n!=abs(nn) and nn!=0:
+                        sdd=md(np,pp[n])-md(np,pp[abs(nn)])
                         if sdd<0:
-                            pd[np]=(n,(di[0]+r[0],di[1]+r[1]))
+                            pd[np]=n
                         elif sdd==0:
-                            pd[np]=(0,(di[0]+r[0],di[1]+r[1]))
+                            #pass
+                            pd[np]=0
                 else:
-                    pd[np]=(n,(di[0]+r[0],di[1]+r[1]))
+                    pd[np]=n
     z+=1
-    if z>10:
+    if z>200:
         break
 print(len(pd))
 live=set()
 cp={}
 for p in pd:
-    n=pd[p][0]
+    n=pd[p]
     if n<0:
         cp[-n]=cp.get(-n,0)+1
     else:
         live.add(n)
 print(cp)
 print(live)
-#print(max([cp[n] for n in cp if not n in live]))
+print(max([cp[n] for n in cp if not n in live]))
 from PIL import Image
 import random
 import math
-img = Image.new('RGB', (500, 500), color = (0, 0, 0))
+img = Image.new('RGB', (600, 600), color = (0, 0, 0))
 pix=img.load()
 col={}
 for i in range(51):
@@ -62,8 +69,8 @@ for i in range(51):
     pix[i,1]=col[-i]
 col[0]=(255,0,0)
 
-for x in range(0,500):
-    for y in range(0,500):
-        if (x,y) in pd:
-            pix[x,y]=col[pd[(x,y)][0]]
+for x in range(0,600):
+    for y in range(0,600):
+        if (x-100,y-100) in pd:
+            pix[x,y]=col[pd[(x-100,y-100)]]
 img.save('pil_color.png')

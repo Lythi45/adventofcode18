@@ -26,7 +26,6 @@ def tree(nt,po):
     nt.append((cl,input[po:po+nm]))
     return po+nm
 tree(nt,0)
-print(nt)
 
 def nodev(node):
     if len(node[0])==0:
